@@ -18,8 +18,9 @@ for page in range(1, page_number):
     for name in name_sections:
         for opportunity in name.findAll('a'):
             link = opportunity.get('href')
-            opportunity = opportunity.text
+            opportunity = opportunity.text + " "
             if (link != None and re.match('^/opportunities/\d+$', link) and opportunity != None):
+                link = "https://colorado.academicworks.com" + link + " "
                 scholarship_info.append([opportunity, link])
 
     rows = scholarship_table.findChildren(['tr'])
@@ -28,7 +29,7 @@ for page in range(1, page_number):
         for award in awards:
             award_amount = re.sub('\s*', '', award.text)
             award_amount = re.sub(',', '', award_amount)
-            scholarship_info[index - 1 + (page - 1) * 50].append(award_amount)
+            scholarship_info[index - 1 + (page - 1) * 50].append(award_amount + " ")
         
         deadline_sections = row.find_all('td', class_ = "center")
         for deadline_section in deadline_sections:
