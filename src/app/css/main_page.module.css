@@ -18,6 +18,14 @@
   align-items: right;
 }
 
+.sine_img{
+  position: absolute;
+  top: 301px;
+  left: 0px;
+  width: 100%;
+  overflow: hidden;
+}
+
 .header_menu_item{
   color: white;
   font-size: 18pt;
