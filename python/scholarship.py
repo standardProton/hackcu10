@@ -23,13 +23,12 @@ for page in range(1, page_number):
                 link = "https://colorado.academicworks.com" + link + " "
                 scholarship_info.append([opportunity, link])
     
-        index = 0
-        for description in name.findAll('div'):
+        description_sections = name.findChildren(['div'])
+        for description in description_sections:
             description = re.sub('(^\s*)', '', description.text)
             description = re.sub('(\s*$)', '', description)
             description = re.sub(',', '', description)
-            scholarship_info[index - 1 + (page - 1) * 50].append(description + " ")
-            index += 1
+            scholarship_info[-1].append(description + " ")
 
     rows = scholarship_table.findChildren(['tr'])
     for index, row in enumerate(rows):
