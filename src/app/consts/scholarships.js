@@ -1,13 +1,5 @@
 export const scholarships = [
     {
-        name: "Name",
-        url: "Link", 
-        amount: "Award",
-        due: "Deadline",
-        college: null,
-        apply: false,
-    },
-    {
         name: "Dr. Leonhard E. Baak Memorial Scholarship for German Studies Majors",
         url: "https://colorado.academicworks.com/opportunities/22203", 
         amount: "Varies",
