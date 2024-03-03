@@ -22,6 +22,14 @@ for page in range(1, page_number):
             if (link != None and re.match('^/opportunities/\d+$', link) and opportunity != None):
                 link = "https://colorado.academicworks.com" + link + " "
                 scholarship_info.append([opportunity, link])
+    
+        index = 0
+        for description in name.findAll('div'):
+            description = re.sub('(^\s*)', '', description.text)
+            description = re.sub('(\s*$)', '', description)
+            description = re.sub(',', '', description)
+            scholarship_info[index - 1 + (page - 1) * 50].append(description + " ")
+            index += 1
 
     rows = scholarship_table.findChildren(['tr'])
     for index, row in enumerate(rows):
@@ -39,7 +47,7 @@ for page in range(1, page_number):
             else:
                 scholarship_info[index - 1 + (page - 1) * 50].append('Expired')
 
-    with open('scholarship.csv', 'w', newline='') as f:
-        writer = csv.writer(f)
-        writer.writerow(['Name', 'Link', 'Award', 'Deadline'])
-        writer.writerows(scholarship_info)
+with open('scholarship.csv', 'w', newline='') as f:
+    writer = csv.writer(f)
+    writer.writerow(['Name', 'Link', 'Description', 'Award', 'Deadline'])
+    writer.writerows(scholarship_info)
