@@ -3,10 +3,6 @@ import page from "../app/css/main_page.module.css";
 import styles from "../app/css/main.module.css";
 import globals from "../app/css/globals.css";
 import { Button } from "@mui/material";
-import Head from "next/head";
-
-import { useState } from "react";
-import { useEffect } from "react";
 
 export default function Home() {
 
@@ -21,9 +17,6 @@ export default function Home() {
   });*/
 
   return (<>
-    <Head>
-      <title>CU Scholarships</title>
-    </Head>
     <div className={page.main}>
       <div className={page.header}>
         <div className={page.header_gradient}></div>
