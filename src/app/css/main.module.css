@@ -5,12 +5,39 @@
     color: #fff;
     padding: 25px;
     border-radius: 15px;
+    overflow-y: auto;
 }
 
 .centered{
     text-align: center;
     justify-content: center;
     align-items: center;
+}
+
+.header_menu_container {
+    top: 0;
+    right: 10px;
+    width: 100%;
+    height: 40px;
+    margin-top: 10px;
+}
+.header_menu_item{
+    color: white;
+    font-size: 18pt;
+    padding: 0px;
+    margin: 5px;
+    padding-top: 0;
+    padding: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 150ms ease-in-out;
+}
+  
+.header_menu_item:hover{
+    padding: 15px;
+    margin: 0;
+    background-color: #FFF;
+    color: black;
 }
 
 .margin_auto{

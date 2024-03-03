@@ -6,6 +6,7 @@ import { Button } from "@mui/material";
 import Link from "next/link";
 
 import { useEffect } from "react";
+import PageMenu from "@/comps/PageMenu";
 
 export default function Home() {
 
@@ -31,21 +32,7 @@ export default function Home() {
             <Image src="/sine.png" width="1920" height="50" alt="Sine"></Image>
           </div>
         </div>
-        <div className={page.header_menu_container}>
-          <div className={styles.flex + " " + styles.hide_on_mobile}  style={{justifyContent: "right", gap: "10px"}}>
-            <a href="https://google.com/">
-              <div className={page.header_menu_item}>
-                <span>Item 1</span>
-              </div>
-            </a>
-            <div className={page.header_menu_item}>
-              <span>Item 2</span>
-            </div>
-            <div className={page.header_menu_item}>
-              <span>Item 3</span>
-            </div>
-          </div>
-        </div>
+        <PageMenu alignRight={true}></PageMenu>
       </div>
       <div className={page.content_container}>
         <div className={page.signup_container}>
