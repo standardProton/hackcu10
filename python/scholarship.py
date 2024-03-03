@@ -9,6 +9,19 @@ if len(sys.argv) != 1:
 page_number = 14
 scholarship_info = []
 
+def get_description(link):
+    scholarship = requests.get(link).text
+    scholarship_soup = BeautifulSoup.BeautifulSoup(scholarship, 'html.parser')
+    
+    header_block = scholarship_soup.findChildren(['header'])
+    description = ""
+    for block in header_block:
+        description_block = block.findChildren(['p', 'ul'])
+        for d in description_block:
+            d = re.sub('<.*?>', '', d.text)
+            description += d
+    return description
+
 for page in range(1, page_number):
     scholarships = requests.get(f"https://colorado.academicworks.com/?page={page}").text
     scholarships_soup = BeautifulSoup.BeautifulSoup(scholarships, 'html.parser')
@@ -21,15 +34,8 @@ for page in range(1, page_number):
             opportunity = opportunity.text + " "
             if (link != None and re.match('^/opportunities/\d+$', link) and opportunity != None):
                 link = "https://colorado.academicworks.com" + link + " "
-                scholarship_info.append([opportunity, link])
+                scholarship_info.append([opportunity, link, get_description(link)])
     
-        description_sections = name.findChildren(['div'])
-        for description in description_sections:
-            description = re.sub('(^\s*)', '', description.text)
-            description = re.sub('(\s*$)', '', description)
-            description = re.sub(',', '', description)
-            scholarship_info[-1].append(description + " ")
-
     rows = scholarship_table.findChildren(['tr'])
     for index, row in enumerate(rows):
         awards = row.find_all('td', class_ = "strong h4 table__column--max-width-250")
