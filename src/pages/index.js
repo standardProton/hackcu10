@@ -21,7 +21,7 @@ export default function Home() {
       if (isNaN(x)) x = 0
       x = x % 384;
       sine.style.left = "" + (x-1) + "px";
-    }, 60);
+    }, 50);
     return () => {clearInterval(iid);}
   });
 
