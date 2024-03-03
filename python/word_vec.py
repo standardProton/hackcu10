@@ -48,4 +48,8 @@ def create_vector():
         scholarship_vector = convert_vector(vectorize(scholarship_vocab, description))
         description_vector += "    " + scholarship_vector + ",\n"
     description_vector += "]"
-    return description_vector
+    
+    with open("scholarship_vecs.js", "w") as f:
+        f.write(description_vector)
+
+create_vector()
