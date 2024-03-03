@@ -108,6 +108,9 @@ export default function Search() {
         <div className={page.col1} style={{width: left_width + "%"}}>
           <div className={styles.box} style={{height: "100%", paddingBottom: "0"}} onClick={() => setPrimarySection(false)}>
             <div style={{marginBottom: "12px"}}>
+              <span style={{fontSize: "16pt"}}>Select a college:</span>
+            </div>
+            <div style={{marginBottom: "12px"}}>
               <span style={{fontSize: "16pt"}}>Enter your major(s) and minor(s):</span>
             </div>
             <div style={{marginBottom: "12px"}}>

@@ -39,8 +39,13 @@ export default async function SearchScholarships(req, res) {
     
     const results = []
     const results_len = Math.min(scholarship_vecs.length, 15);
-    for (let i = 0; i < results_len; i++){
-        results.push(scholarships[dot_products[i].index]);
+    let i = 0;
+    while (results.length < 15 && i < scholarship_vecs.length){
+        const sch = scholarships[dot_products[i].index];
+        if (!sch.apply){
+            results.push(sch);
+        }
+        i++;
     }
 
 
