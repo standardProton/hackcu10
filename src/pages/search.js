@@ -137,7 +137,7 @@ export default function Search() {
                 <a href={scholarship.url} target="_blank">
                   <div className={page.scholarship_entry + " " + (i % 2 == 0 ? page.even_entry : page.odd_entry)}>
                     <div>
-                      <b>{shrinkString(scholarship.name, left_width >= 60 ? 20 : 70)}</b>
+                      <b>{shrinkString(scholarship.name, left_width >= 60 ? 20 : 65)}</b>
                     </div>
                     <div className={styles.flex} style={{gap: "15px", fontSize: "14pt", color: "#ccc"}}>
                       <div>

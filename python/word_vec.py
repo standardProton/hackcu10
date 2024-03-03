@@ -44,12 +44,27 @@ def create_vector():
     scholarship_description = scholarship_data['Description'].tolist()
 
     scholarship_vocab = create_vocab(scholarship_description)
+
     for description in scholarship_description:
         scholarship_vector = convert_vector(vectorize(scholarship_vocab, description))
         description_vector += "    " + scholarship_vector + ",\n"
     description_vector += "]"
     
-    with open("scholarship_vecs.js", "w") as f:
+    with open("scholarship_vecs.js", "w", encoding='utf-8') as f:
         f.write(description_vector)
 
+def create_word_indices():
+    description_vector = "[\n"
+    scholarship_data = read_csv("scholarship.csv")
+    scholarship_description = scholarship_data['Description'].tolist()
+
+    scholarship_vocab = create_vocab(scholarship_description)
+
+    word_indices = [""] * len(scholarship_vocab)
+    for i in scholarship_vocab.items():
+        word_indices[i[1]] = i[0]
+    with open("word_indices.js", 'w', encoding='utf-8') as f:
+        f.write(str(word_indices))
+
 create_vector()
+create_word_indices()

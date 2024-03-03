@@ -5,10 +5,12 @@ import globals from "../app/css/globals.css";
 import { Button } from "@mui/material";
 import Link from "next/link";
 
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import PageMenu from "@/comps/PageMenu";
 
 export default function Home() {
+
+  const [loaded_page, setLoadedPage] = useState(false);
 
   useEffect(() => {
     if (document == undefined) return;
@@ -22,6 +24,19 @@ export default function Home() {
     }, 60);
     return () => {clearInterval(iid);}
   });
+
+  useEffect(() => {
+    if (!loaded_page){
+      const load_cache = async () => {
+        const headers = new Headers();
+        headers.append('Content-Type', 'text/json');
+        headers.append('cache-control', 'public, max-age=31536000, immutable, no-custom');
+        fetch("/api/search", {headers});
+        setLoadedPage(true);
+      }
+      load_cache();
+    }
+  })
 
   return (<>
     <div className={page.main}>
