@@ -9,6 +9,32 @@ if len(sys.argv) != 1:
 page_number = 14
 scholarship_info = []
 
+def is_general_required(link):
+    scholarship = requests.get(link).text
+    scholarship_soup = BeautifulSoup.BeautifulSoup(scholarship, 'html.parser')  
+
+    is_required = False
+    div_block = scholarship_soup.findAll('div', class_="section-anchor js-sticky sticky-form-footer center-text")
+    for block in div_block:
+        general_required = block.findChildren(['p'])
+        if len(general_required) > 0:
+            is_required = True
+    return is_required
+
+def get_college(link):
+    scholarship = requests.get(link).text
+    scholarship_soup = BeautifulSoup.BeautifulSoup(scholarship, 'html.parser')
+
+    college = "None"
+    div_block = scholarship_soup.findAll('div', class_="full-width-rows")
+    for block in div_block:
+        college_block = block.findChildren(['dd'])
+        if len(college_block) >= 3:
+            college = re.sub('"', '', college_block[1].text)
+            college = re.sub(',', '', college)
+    return college
+
+
 def get_description(link):
     scholarship = requests.get(link).text
     scholarship_soup = BeautifulSoup.BeautifulSoup(scholarship, 'html.parser')
@@ -38,7 +64,7 @@ for page in range(1, page_number):
             opportunity = opportunity + " "
             if (link != None and re.match('^/opportunities/\d+$', link) and opportunity != None):
                 link = "https://colorado.academicworks.com" + link + " "
-                scholarship_info.append([opportunity, link, get_description(link)])
+                scholarship_info.append([opportunity, link, get_college(link), get_description(link), is_general_required(link)])
     
     rows = scholarship_table.findChildren(['tr'])
     for index, row in enumerate(rows):
@@ -58,5 +84,5 @@ for page in range(1, page_number):
 
 with open('scholarship.csv', 'w', newline='') as f:
     writer = csv.writer(f)
-    writer.writerow(['Name', 'Link', 'Description', 'Award', 'Deadline'])
+    writer.writerow(['Name', 'Link', 'College', 'Description', 'Considered on General Application?', 'Award', 'Deadline'])
     writer.writerows(scholarship_info)
