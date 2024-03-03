@@ -1,5 +1,6 @@
 
 import { scholarship_vecs } from "@/app/consts/scholarship_vecs";
+import { scholarships } from "@/app/consts/scholarships";
 
 export const dot = (a, b) => a.map((x, i) => a[i] * b[i]).reduce((m, n) => m + n);
 
@@ -31,8 +32,10 @@ export default async function SearchScholarships(req, res) {
 
     const dot_products = [];
     const vec_mag = Math.sqrt(mag2(body.vectorized));
-    if (vec_mag == 0){
-        res.status(400).json({error_msg: "Received empy (zero) vectorized form!"});
+    if (vec_mag == 0){ //return default
+        const results = [];
+        for (let i = 0; i < 15; i++) results.push(scholarships[i]);
+        res.status(200).json({results, msg: "Received zero vector, returning default 15."});
         return;
     }
     for (let i = 0; i < scholarship_vecs.length; i++){
@@ -42,8 +45,12 @@ export default async function SearchScholarships(req, res) {
 
     dot_products.sort((a, b) => a.cos_theta < b.cos_theta ? 1 : -1);
 
-    console.log(dot_products);
+    const results = []
+    const results_len = Math.min(dot_products.length, 15);
+    for (let i = 0; i < results_len; i++){
+        results.push(scholarships[dot_products[i].index]);
+    }
 
 
-    res.status(200).json({results: []});
+    res.status(200).json({results});
 }

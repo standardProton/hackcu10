@@ -25,7 +25,6 @@ export default function Search() {
         new_vocab[word_indices[i]] = i;
       }
       setVocab(new_vocab);
-      console.log(new_vocab);
     }
   });
 
@@ -97,9 +96,9 @@ export default function Search() {
 
   }
 
-  function shrinkString(s){
-    if (s.length <= 20) return s;
-    return s.substring(0, 20) + "...";
+  function shrinkString(s, size){
+    if (s.length <= size) return s;
+    return s.substring(0, size) + "...";
   }
 
   return (
@@ -129,16 +128,16 @@ export default function Search() {
 
         <div className={page.col2} style={{width: (100-left_width) + "%"}} onClick={() => {if (results != null) setPrimarySection(true)}}>
           <div className={styles.box} style={{height: "100%", paddingBottom: "0"}}>
-            <div>
+            <div style={{marginBottom: "12px"}}>
               <span style={{fontSize:"22pt"}}>Search Results</span>
             </div>
-            {results != null && (
+            {results != null ? (
               <div className={page.scholarships_container}>
               {results.map((scholarship, i) => (
                 <a href={scholarship.url} target="_blank">
                   <div className={page.scholarship_entry + " " + (i % 2 == 0 ? page.even_entry : page.odd_entry)}>
                     <div>
-                      <b>{left_width >= 60 ? shrinkString(scholarship.name) : scholarship.name}</b>
+                      <b>{shrinkString(scholarship.name, left_width >= 60 ? 20 : 70)}</b>
                     </div>
                     <div className={styles.flex} style={{gap: "15px", fontSize: "14pt", color: "#ccc"}}>
                       <div>
@@ -151,6 +150,10 @@ export default function Search() {
                   </div>
                 </a>
               ))}
+              </div>
+            ) : (
+              <div>
+                <span style={{color: "#bbb", fontSize: "12pt"}}>Click the search button to begin!</span>
               </div>
             )}
           </div>
