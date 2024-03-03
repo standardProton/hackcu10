@@ -28,14 +28,3 @@ def create_vocab(examples): #get dict of words where index is ordered by word fr
 
 def cos_distance(a, b):
     return 1-(np.sum(a*b)/math.sqrt(np.sum(a**2)*np.sum(b**2)))
-
-examples = []
-for i in range(...): examples.append(description[i])
-vocab = create_vocab(examples)
-
-output = "[\n"
-for i in description:
-    vec = vectorize(vocab, description[i])
-    output += "    " + str(vec) + "\n" #[1, 2, 3, 4] + 
-output += "]"
-
