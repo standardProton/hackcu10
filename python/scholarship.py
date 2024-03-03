@@ -19,7 +19,10 @@ def get_description(link):
         description_block = block.findChildren(['p', 'ul'])
         for d in description_block:
             d = re.sub('<.*?>', '', d.text)
+            d = re.sub(',', '', d)
+            d = re.sub('\n', ' ', d)
             description += d
+        description += " "
     return description
 
 for page in range(1, page_number):
@@ -31,7 +34,8 @@ for page in range(1, page_number):
     for name in name_sections:
         for opportunity in name.findAll('a'):
             link = opportunity.get('href')
-            opportunity = opportunity.text + " "
+            opportunity = re.sub(',', '', opportunity.text)
+            opportunity = opportunity + " "
             if (link != None and re.match('^/opportunities/\d+$', link) and opportunity != None):
                 link = "https://colorado.academicworks.com" + link + " "
                 scholarship_info.append([opportunity, link, get_description(link)])
