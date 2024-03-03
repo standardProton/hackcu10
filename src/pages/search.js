@@ -3,16 +3,31 @@ import page from "../app/css/search_page.module.css";
 import styles from "../app/css/main.module.css";
 import globals from "../app/css/globals.css";
 import { Button } from "@mui/material";
-import Head from "next/head";
+import { word_indices } from "@/app/consts/word_indices";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import PageMenu from "@/comps/PageMenu";
 
 export default function Search() {
 
+  const { TokenizerIt } = require('@nlpjs/lang-it');
+
   const [results, setResults] = useState(null);
   const [left_width, setLeftWidth] = useState(70);
   const [error_text, setErrorText] = useState(null);
+
+  const [vocab, setVocab] = useState(null);
+
+  useEffect(() => {
+    if (vocab == null){
+      const new_vocab = {};
+      for (let i = 0; i < word_indices.length; i++){
+        new_vocab[word_indices[i]] = i;
+      }
+      setVocab(new_vocab);
+      console.log(new_vocab);
+    }
+  });
 
   function setPrimarySection(right){
 
@@ -34,6 +49,21 @@ export default function Search() {
     }
   }
 
+  function vectorize(sentence){
+    const normalizer = new TokenizerIt();
+    const s = normalizer.tokenize(sentence.toLowerCase(), true);
+    console.log(s);
+
+    const r = new Array(word_indices.length).fill(0);
+    for (let i = 0; i < s.length; i++){
+      const index = vocab[s[i]];
+      if (index != undefined) r[index] += 1;
+    }
+    console.log(r);
+    return r;
+    
+  }
+
   async function search(){
 
     const majors = document.getElementById("major-input").value;
@@ -45,16 +75,18 @@ export default function Search() {
     }
     setErrorText(null);
 
+    const search_text = majors + " " + resume;
+
     const res1 = await fetch("/api/search", {
       method: "POST",
-      body: JSON.stringify({search_text: majors + " " + resume})
+      body: JSON.stringify({search_text, vectorized: vectorize(search_text)})
     });
     const res = await res1.json();
 
     console.log(res);
 
-    if (res.error_text != undefined){
-      console.error(error_text);
+    if (res.error_msg != undefined){
+      console.error(res.error_msg);
       setErrorText("There was an error!");
       return;
     }
