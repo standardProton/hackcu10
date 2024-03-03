@@ -7,16 +7,6 @@ export const dot = (a, b) => a.map((x, i) => a[i] * b[i]).reduce((m, n) => m + n
 export const mag2 = (a) => a.map((x, i) => a[i]*a[i]).reduce((m, n) => m+ n);
 
 export default async function SearchScholarships(req, res) {
-   /* const l = [];
-    for (let i =0 ; i < 15; i++){
-        l.push({
-            name: (i % 2 == 0 ? "Scholarship " + (i+1) : "Scholarship Lorum Ipsum Really long name here"),
-            amount: "$1234",
-            due: "3/15/24",
-            url: "colorado.edu"
-        })
-    }
-    res.status(200).json({results: l});*/
 
     if (req.method != "POST"){
         res.status(400).json({error_message: "Must use POST!"});
@@ -38,19 +28,22 @@ export default async function SearchScholarships(req, res) {
         res.status(200).json({results, msg: "Received zero vector, returning default 15."});
         return;
     }
+
+    const start = (new Date()).getTime();
     for (let i = 0; i < scholarship_vecs.length; i++){
         const d = dot(scholarship_vecs[i], body.vectorized);
         dot_products.push({index: i, cos_theta: d/(Math.sqrt(mag2(scholarship_vecs[i]))*vec_mag)});
     }
-
+    
     dot_products.sort((a, b) => a.cos_theta < b.cos_theta ? 1 : -1);
-
+    
     const results = []
-    const results_len = Math.min(dot_products.length, 15);
+    const results_len = Math.min(scholarship_vecs.length, 15);
     for (let i = 0; i < results_len; i++){
         results.push(scholarships[dot_products[i].index]);
     }
 
 
+    console.log("Took " + ((new Date()).getTime() - start) + "ms");
     res.status(200).json({results});
 }
