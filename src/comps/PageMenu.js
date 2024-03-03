@@ -11,9 +11,11 @@ export default function PageMenu({alignRight}){
                 <span>Scholarship Search</span>
               </div>
             </Link>
-            <div className={styles.header_menu_item}>
-              <span>Item 2</span>
-            </div>
+            <Link href="https://colorado.academicworks.com" target="_blank">
+                <div className={styles.header_menu_item}>
+                <span>CU Page</span>
+                </div>
+            </Link>
             <Link href="/">
                 <div className={styles.header_menu_item}>
                 <span>About</span>
