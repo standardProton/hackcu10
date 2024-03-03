@@ -4,6 +4,7 @@ export default function RootLayout({ children }) {
     <html lang="en">
       <head>
         <title>CU Scholarships</title>
+        <link rel="icon" href="/favicon.ico"/>
       </head>
       <body>{children}</body>
     </html>
